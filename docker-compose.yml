@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    image: keyurbilgi/acetaskserver # Use the official Node.js image
+    ports:
+      - "3000:3000"        # Expose port 3000 for the Node.js app
+    environment:
+      DATABASE_URL: postgres://postgres:mysecretpassword@db:5432/acetaskdb # PostgreSQL connection string
+    command: npm start      # Command to run the Node.js application
+    depends_on:
+      - db                  # Ensure db service is started before app
+
+  db:
+    image: postgres:latest  # Use the official PostgreSQL image
+    restart: always         # Restart the database container if it stops
+    environment:
+      POSTGRES_DB: acetaskdb  # Name of the database to create
+      POSTGRES_USER: postgres       # Username for PostgreSQL
+      POSTGRES_PASSWORD: mysecretpassword # Password for the database
+    ports:
+      - "5432:5432"            # Expose PostgreSQL on port 5432
