@@ -7,7 +7,8 @@ services:
       - "3000:3000"        # Expose port 3000 for the Node.js app
     environment:
       DATABASE_URL: postgres://postgres:mysecretpassword@db:5432/acetaskdb # PostgreSQL connection string
-    command: npm start      # Command to run the Node.js application
+    command: >
+      sh -c "npx prisma migrate deploy && npm start"   
     depends_on:
       - db                  # Ensure db service is started before app
 
